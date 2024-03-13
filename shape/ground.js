@@ -1,5 +1,9 @@
+// let engine = Matter.Engine.create();
+
 class Grounded {
     constructor(x,y,w,h) {
+        this.body = Matter.Bodies.rectangle(x, y, w, h);
+        Composite.add(engine.world, this.body);
         this.x = x;
         this.y = y;
         this.w = w;
@@ -8,8 +12,20 @@ class Grounded {
 
 
     show() {
+        const pos = this.body.position;
+        console.log(this.body);
+        const angle = this.body.angle;
+        push();
+        translate(pos.x, pos.y);
+        rotate(angle);
         fill(255);
-        rect(this.x,this.y,this.w,this.h);
+
+
+        rectMode(CENTER);
+
+        
+        rect(0,0,this.w,this.h);
+        pop();
     }
 
 }
