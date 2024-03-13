@@ -1,43 +1,19 @@
-let Engine;
-let Render;
-let Runner;
-let Bodies;
-let Composite;
 
 
-Engine = Matter.Engine,
-Render = Matter.Render,
-Runner = Matter.Runner,
-Bodies = Matter.Bodies,
-Composite = Matter.Composite;
+let ground;
+let tri1;
 
-let boxA = [];
-let engine;
 
 function setup() {
-  engine = Engine.create();
-  world = engine.world;
   createCanvas(1700 , 1200);
-
-  for(i=0; i < 50 ; i++){
-    boxA.push(Bodies.rectangle(random(1700), 200 , 20, 20));
-  }
-  var ground = Bodies.rectangle(400, 1100, 400, 1100, { isStatic: true });
-
-  Engine.run(engine);
-  console.log(boxA);
-
-  for(i=0; i < boxA.length; i++){
-    Composite.add(engine.world, [boxA[i], ground]);
-  }
-
+  ground = new Grounded(-10, height-50, width + 20, 60);
+  tri1 = new Triang(200,200,300,300,100,400);
   
 }
 
 function draw() {
   background(222);
-  for(i=0; i < boxA.length; i++){
-    rect(boxA[i].position.x, boxA[i].position.y,50,50);
-  }
+  ground.show();
+  tri1.show();
 }
 
