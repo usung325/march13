@@ -1,86 +1,43 @@
-// function setup() {
-//   createCanvas(400, 400);
-// }
-
-// function draw() {
-//   background(0);
-
-  
-// }
+let Engine;
+let Render;
+let Runner;
+let Bodies;
+let Composite;
 
 
-// Example based on https://www.youtube.com/watch?v=urR596FsU68
-// 5.17: Introduction to Matter.js - The Nature of Code
-// by @shiffman
+Engine = Matter.Engine,
+Render = Matter.Render,
+Runner = Matter.Runner,
+Bodies = Matter.Bodies,
+Composite = Matter.Composite;
 
-// module aliases
-
-var Engine = Matter.Engine,
-  //    Render = Matter.Render,
-  World = Matter.World,
-  MouseConstraint = Matter.MouseConstraint,
-  Mouse = Matter.Mouse,
-  Bodies = Matter.Bodies;
-
+let boxA = [];
 let engine;
-let world;
-let boxes = [];
-let circles = [];
-let grounds = [];
-let mConstraint;
-
-let canvas;
-let sizes = [5, 10, 20, 30, 40];
 
 function setup() {
-  canvas = createCanvas(400, 400);
   engine = Engine.create();
   world = engine.world;
-  //  Engine.run(engine);
-  grounds.push(new Boundary(0, height / 2, 10, height));
-  grounds.push(new Boundary(width, height / 2, 10, height));
-  grounds.push(new Boundary(200, 0, width, 10));
-  grounds.push(new Boundary(200, height, width, 10));
-  World.add(world, grounds);
+  createCanvas(1700 , 1200);
 
-  let mouse = Mouse.create(canvas.elt);
-  mouse.pixelRatio = pixelDensity() // for retina displays etc
-  let options = {
-    mouse: mouse
+  for(i=0; i < 50 ; i++){
+    boxA.push(Bodies.rectangle(random(1700), 200 , 20, 20));
   }
-  mConstraint = MouseConstraint.create(engine, options);
-  World.add(world, mConstraint);
+  var ground = Bodies.rectangle(400, 1100, 400, 1100, { isStatic: true });
+
+  Engine.run(engine);
+  console.log(boxA);
+
+  for(i=0; i < boxA.length; i++){
+    Composite.add(engine.world, [boxA[i], ground]);
+  }
+
+  
 }
 
-let count = 0;
 function draw() {
-  background(51);
-  if (frameCount % 5 === 0) {
-    print (++count);
-    let size = random(sizes);
-    if (random() < 0.5) {
-      boxes.push(new Box(width / 2, 80, size, size));
-    } else {
-      circles.push(new Circle(width / 2, 80, size / 2));
-    }
-  }
-  Engine.update(engine);
-  for (let box of boxes) {
-    box.show();
-  }
-  for (let circle of circles) {
-    circle.show();
-  }
-  for (let ground of grounds) {
-    ground.show();
+  background(222);
+  for(i=0; i < boxA.length; i++){
+    rect(boxA[i].position.x, boxA[i].position.y,50,50);
   }
 }
 
-// function mouseDragged() {
-//   let size = random(sizes);
-//   if (random() < 0.5) {
-//     boxes.push(new Box(mouseX, mouseY, size, size));
-//   } else {
-//     circles.push(new Circle(mouseX, mouseY, size / 2));
-//   }
-// }
